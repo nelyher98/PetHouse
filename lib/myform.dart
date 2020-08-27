@@ -395,7 +395,7 @@ class MyFormState extends State<MyForm> {
                                             String lastnameP = _lastnameController.text;
                                             String namePet = _namePetController.text;
 
-                                            if(agePerson < 1){
+                                            if(agePerson.isNegative){
                                               Fluttertoast.showToast(
                                                   msg: "Please enter a real age number",
                                                   toastLength: Toast.LENGTH_LONG,
@@ -403,10 +403,9 @@ class MyFormState extends State<MyForm> {
                                                   timeInSecForIosWeb: 1,
                                                   backgroundColor: Color(0xff5EC465),
                                                   textColor: Colors.black,
-                                                  fontSize: 16.0
-                                              );
+                                                  fontSize: 16.0);
                                             }else{
-                                              if(agePet < 1){
+                                              if(agePet.isNegative){
                                                 Fluttertoast.showToast(
                                                     msg: "Please enter a real age number",
                                                     toastLength: Toast.LENGTH_LONG,
@@ -414,9 +413,7 @@ class MyFormState extends State<MyForm> {
                                                     timeInSecForIosWeb: 1,
                                                     backgroundColor: Color(0xff5EC465),
                                                     textColor: Colors.black,
-                                                    fontSize: 16.0
-                                                );
-
+                                                    fontSize: 16.0);
                                               }else{
                                                 if(_pet.toString() == "Pet.Gato"){
                                                   type = "Gato";
