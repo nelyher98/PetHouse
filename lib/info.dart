@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:segundapractica/Persona.dart';
+import 'package:segundapractica/Mascota.dart';
+import 'package:segundapractica/myform.dart';
+
+String ext;
 
 
-class MyInfo extends StatelessWidget {
+class MyInfo extends StatelessWidget{
 
-  Persona persona;
-  final String value;
+  Persona person;
+  Mascota pet;
+  MyInfo({this.person, this.pet});
 
 
-  MyInfo({Key key, this.value}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +41,7 @@ class MyInfo extends StatelessWidget {
                 Stack(
                   children: <Widget>[
                     Container(
-                    margin: EdgeInsets.fromLTRB(140, 20, 0, 0),
+                    margin: EdgeInsets.fromLTRB(160, 20, 0, 0),
                     width: 80,
                     height: 80,
                     //color: Colors.green ,
@@ -54,7 +58,7 @@ class MyInfo extends StatelessWidget {
                        Container(
                         margin: EdgeInsets.fromLTRB(0,120, 0, 0),
                         height: 5,
-                        width: 360,
+                        width: 390,
                          color: Color(0xff264434),
                     ),
                   ],
@@ -65,7 +69,7 @@ class MyInfo extends StatelessWidget {
                         Container(
                           margin: EdgeInsets.fromLTRB(20,190, 0, 0),
                           height: 180,
-                          width: 320,
+                          width: 350,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(
@@ -81,8 +85,9 @@ class MyInfo extends StatelessWidget {
                         Container(
                           margin: EdgeInsets.fromLTRB(30,205, 0, 0),
                           height: 150,
-                          width: 100,
-                          color: Colors.green,
+                          width: 125,
+                          //color: Colors.green,
+                          child: Image.asset(person.picture),
                         ),
                       ],
                     ),
@@ -90,10 +95,25 @@ class MyInfo extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.fromLTRB(135,205, 0, 0),
+                          margin: EdgeInsets.fromLTRB(160,205, 0, 0),
                           height: 150,
-                          width: 195,
-                          color: Colors.blue,
+                          width: 200,
+                          //color: Colors.blue,
+                          child: Center(
+                            child: Column(
+                              children: [
+                                Text(" ${person.name} ${person.lastName} ${person.age} añ${person.Personext} de edad.", style: TextStyle(fontSize: 16.5, fontStyle: FontStyle.italic),),
+                                Padding(padding: EdgeInsets.only(top: 8.0),),
+                                Divider(),
+                                new Text("${person.sex} de un ${pet.type}", style: TextStyle(fontSize: 16.5, fontStyle: FontStyle.italic),),
+                                Padding(padding: EdgeInsets.only(top: 8.0),),
+                                Divider(),
+                                new Text("de ${pet.Page} añ${pet.ext} llamado ${pet.Pname} : ", style: TextStyle(fontSize: 16.5, fontStyle: FontStyle.italic),),
+                                Padding(padding: EdgeInsets.only(top: 8.0),),
+                                Divider(),
+                              ],
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -101,14 +121,37 @@ class MyInfo extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.fromLTRB(105,368, 0, 0),
-                          height: 100,
-                          width: 140,
+                          margin: EdgeInsets.fromLTRB(100,370, 0, 0),
+                          height: 105,
+                          width: 200,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(
                               width: 2,
                             ),
+                          ),
+                          child: Image.asset(pet.Ppicture),
+                        ),
+                      ],
+                    ),
+
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.fromLTRB(160,580, 0, 0),
+                          height: 70,
+                          width: 70,
+                          child: GestureDetector(
+                           child:Image.asset("images/home.png"),
+                            onTap:(){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MyForm(),
+                                ),
+                              );
+                            },
+
                           ),
                         ),
                       ],
@@ -118,15 +161,15 @@ class MyInfo extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.fromLTRB(120,140, 0, 0),
-                          height: 40,
-                          width: 150,
+                          margin: EdgeInsets.fromLTRB(100,130, 0, 0),
+                          height: 50,
+                          width: 200,
                           //color: Color(0xff264434),
                           child: Text("Bienvenidos",
                             style: TextStyle(
                               color: Color(0xff264434),
                               fontFamily: 'DancingScript',
-                              fontSize: 30.0,
+                              fontSize: 45.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -144,3 +187,4 @@ class MyInfo extends StatelessWidget {
     );
   }
 }
+

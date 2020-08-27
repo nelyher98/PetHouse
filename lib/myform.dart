@@ -1,55 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:segundapractica/Persona.dart';
+import 'package:segundapractica/Mascota.dart';
 import 'package:segundapractica/info.dart';
-import 'package:validators/validators.dart' as validator;
+import 'package:fluttertoast/fluttertoast.dart';
+
+enum Owner { Duenio, Duenia }
+enum Pet {Perro, Gato}
+String type;
+String sex;
+String picture;
+String Ppicture;
+String ext;
+
+class MyForm extends StatefulWidget {
 
 
-class MyForm extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        resizeToAvoidBottomPadding: false,
-        body: MyCustomForm(),
-      ),
-    );
-  }
+  MyFormState createState() => MyFormState();
 }
 
+class MyFormState extends State<MyForm> {
 
-class MyCustomForm extends StatefulWidget {
-  @override
-  MyCustomFormState createState() => MyCustomFormState();
-}
 
-class MyCustomFormState extends State<MyCustomForm> {
+  TextEditingController _nameController;
+  TextEditingController _lastnameController;
+  TextEditingController _ageController;
 
-  Persona p = new Persona();
   int SelectedRadioPersona, SelectedRadio;
-  final myController = TextEditingController();
 
+  TextEditingController _namePetController;
+  TextEditingController _agePetController;
+
+  Owner _owner = Owner.Duenia;
+  Pet _pet = Pet.Gato;
 
 
   @override
   void initState() {
     super.initState();
-    SelectedRadioPersona = 0;
-    SelectedRadio = 0;
+    _nameController = new TextEditingController();
+    _lastnameController= new TextEditingController();
+    _ageController = new TextEditingController();
+    _namePetController = new TextEditingController();
+    _agePetController = new TextEditingController();
   }
 
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    myController.dispose();
-    super.dispose();
-  }
-
-  setSelectedRadio(int val){
-    setState(() {
-      SelectedRadio = val;
-      SelectedRadioPersona = val;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,9 +73,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                     Stack(
                       children: [
                         Container(
-                          margin: EdgeInsets.fromLTRB(0, 140, 0, 0),
-                          height: 452,
-                          width: 400,
+                          margin: EdgeInsets.fromLTRB(0, 200, 0, 0),
+                          height: 530,
+                          width: 500,
                           child: Card(
                             color: Colors.white,
                             shape: RoundedRectangleBorder(
@@ -102,21 +97,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                                           ),
                                           borderRadius: BorderRadius.all(Radius.circular(30.0)),
                                         ),
-                                        margin: EdgeInsets.fromLTRB(40, 70, 0, 0),
+                                        margin: EdgeInsets.fromLTRB(60, 60, 0, 0),
                                         width: 270,
                                         height: 40,
                                         child: Padding(
                                           padding: const EdgeInsets.all(7.0),
                                           child: TextFormField(
-                                            validator: (String value) {
-                                              if (value.isEmpty) {
-                                                return 'Enter your first name';
-                                              }
-                                              return null;
-                                            },
-                                            onSaved: (String value) {
-                                              p.name = value;
-                                            },
+                                            controller: _nameController,
                                             decoration: InputDecoration(
                                               border: OutlineInputBorder(
                                                 borderRadius: const BorderRadius.all(
@@ -148,12 +135,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                                           ),
                                           borderRadius: BorderRadius.all(Radius.circular(30.0)),
                                         ),
-                                        margin: EdgeInsets.fromLTRB(40, 10, 0, 0),
+                                        margin: EdgeInsets.fromLTRB(60, 20, 0, 0),
                                         width: 270,
                                         height: 40,
                                         child: Padding(
                                           padding: const EdgeInsets.all(7.0),
                                           child: TextField(
+                                            controller: _lastnameController,
                                             decoration: InputDecoration(
                                               border: OutlineInputBorder(
                                                 borderRadius: const BorderRadius.all(
@@ -185,12 +173,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                                           ),
                                           borderRadius: BorderRadius.all(Radius.circular(30.0)),
                                         ),
-                                        margin: EdgeInsets.fromLTRB(40, 10, 0, 0),
+                                        margin: EdgeInsets.fromLTRB(60, 20, 0, 0),
                                         width: 270,
                                         height: 40,
                                         child: Padding(
                                           padding: const EdgeInsets.all(7.0),
                                           child: TextField(
+                                            controller: _ageController,
                                             decoration: InputDecoration(
                                               border: OutlineInputBorder(
                                                 borderRadius: const BorderRadius.all(
@@ -215,7 +204,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                   Row(
                                     children: <Widget>[
                                       Container(
-                                        margin: EdgeInsets.fromLTRB(45, 5, 0, 0),
+                                        margin: EdgeInsets.fromLTRB(60, 20, 0, 0),
                                         height: 40,
                                         width: 270,
                                         child: Row(
@@ -232,24 +221,26 @@ class MyCustomFormState extends State<MyCustomForm> {
                                                 ),
 
                                                 Radio(
-                                                  value: 1,
-                                                  groupValue: SelectedRadioPersona,
+                                                  value: Owner.Duenia,
                                                   activeColor: Color(0xff264434),
-                                                  onChanged: (val){
-                                                    print("Radio $val");
-                                                    setSelectedRadio(val);
+                                                  groupValue: _owner,
+                                                  onChanged: (Owner value) {
+                                                    setState(() {
+                                                      _owner = value;
+                                                    });
                                                   },
                                                 ),
                                                 Text('Dueño',
                                                     style: new TextStyle(fontSize: 16.0)
                                                 ),
                                                 Radio(
-                                                  value: 2,
-                                                  groupValue: SelectedRadioPersona,
+                                                  value: Owner.Duenio,
                                                   activeColor: Color(0xff264434),
-                                                  onChanged: (val){
-                                                    print("Radio $val");
-                                                    setSelectedRadio(val);
+                                                  groupValue: _owner,
+                                                  onChanged: (Owner value) {
+                                                    setState(() {
+                                                      _owner = value;
+                                                    });
                                                   },
 
                                                 ),
@@ -264,7 +255,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                   Row(
                                     children: <Widget>[
                                       Container(
-                                        margin: EdgeInsets.fromLTRB(45, 5, 0, 0),
+                                        margin: EdgeInsets.fromLTRB(60, 20, 0, 0),
                                         height: 40,
                                         width: 270,
                                         child: Row(
@@ -282,24 +273,26 @@ class MyCustomFormState extends State<MyCustomForm> {
                                                ),
 
                                                Radio(
-                                                 value: 1,
-                                                 groupValue: SelectedRadio,
+                                                 value: Pet.Gato,
                                                  activeColor: Color(0xff264434),
-                                                 onChanged: (val){
-                                                   print("Radio $val");
-                                                   setSelectedRadio(val);
+                                                 groupValue: _pet,
+                                                 onChanged: (Pet value) {
+                                                   setState(() {
+                                                     _pet = value;
+                                                   });
                                                  },
                                                ),
                                                Text('Perro',
                                                    style: new TextStyle(fontSize: 16.0)
                                                ),
                                                Radio(
-                                                 value: 2,
-                                                 groupValue: SelectedRadio,
+                                                 value: Pet.Perro,
                                                  activeColor: Color(0xff264434),
-                                                 onChanged: (val){
-                                                   print("Radio $val");
-                                                   setSelectedRadio(val);
+                                                 groupValue: _pet,
+                                                 onChanged: (Pet value) {
+                                                   setState(() {
+                                                     _pet = value;
+                                                   });
                                                  },
                                                ),
                                              ],
@@ -322,12 +315,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                                           ),
                                           borderRadius: BorderRadius.all(Radius.circular(30.0)),
                                         ),
-                                        margin: EdgeInsets.fromLTRB(40, 5, 0, 0),
+                                        margin: EdgeInsets.fromLTRB(60, 20, 0, 0),
                                         width: 270,
                                         height: 40,
                                         child: Padding(
                                           padding: const EdgeInsets.all(7.0),
                                           child: TextField(
+                                            controller: _namePetController,
                                             decoration: InputDecoration(
                                               border: OutlineInputBorder(
                                                 borderRadius: const BorderRadius.all(
@@ -358,12 +352,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                                           ),
                                           borderRadius: BorderRadius.all(Radius.circular(30.0)),
                                         ),
-                                        margin: EdgeInsets.fromLTRB(40, 10, 0, 0),
+                                        margin: EdgeInsets.fromLTRB(60, 20, 0, 0),
                                         width: 270,
                                         height: 40,
                                         child: Padding(
                                           padding: const EdgeInsets.all(7.0),
                                           child: TextField(
+                                            controller: _agePetController,
                                             decoration: InputDecoration(
                                               border: OutlineInputBorder(
                                                 borderRadius: const BorderRadius.all(
@@ -388,17 +383,97 @@ class MyCustomFormState extends State<MyCustomForm> {
                                   Row(
                                     children: [
                                       Container(
-                                        margin: EdgeInsets.fromLTRB(70, 10, 0, 0),
+                                        margin: EdgeInsets.fromLTRB(90, 20, 0, 0),
                                         width: 200,
                                         height: 35,
                                         child: RaisedButton(
                                           onPressed: (){
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                builder: (context) => MyInfo(Persona:)
-                                                )
-                                            );
+
+                                            int agePet = int.parse(_agePetController.text);
+                                            int agePerson = int.parse(_ageController.text);
+                                            String nameP = _nameController.text;
+                                            String lastnameP = _lastnameController.text;
+                                            String namePet = _namePetController.text;
+
+                                            if(agePerson < 1){
+                                              Fluttertoast.showToast(
+                                                  msg: "Please enter a real age number",
+                                                  toastLength: Toast.LENGTH_LONG,
+                                                  gravity: ToastGravity.CENTER,
+                                                  timeInSecForIosWeb: 1,
+                                                  backgroundColor: Color(0xff5EC465),
+                                                  textColor: Colors.black,
+                                                  fontSize: 16.0
+                                              );
+                                            }else{
+                                              if(agePet < 1){
+                                                Fluttertoast.showToast(
+                                                    msg: "Please enter a real age number",
+                                                    toastLength: Toast.LENGTH_LONG,
+                                                    gravity: ToastGravity.CENTER,
+                                                    timeInSecForIosWeb: 1,
+                                                    backgroundColor: Color(0xff5EC465),
+                                                    textColor: Colors.black,
+                                                    fontSize: 16.0
+                                                );
+
+                                              }else{
+                                                if(_pet.toString() == "Pet.Gato"){
+                                                  type = "Gato";
+                                                  Ppicture = "images/cat.png";
+                                                }else{
+                                                  type = "Perro";
+                                                  Ppicture = "images/dog.png";
+                                                }
+
+                                                if(_owner.toString() == "Owner.Duenia"){
+                                                  sex = "Dueña";
+                                                  picture = "images/woman.png";
+                                                }else{
+                                                  sex = "Dueño";
+                                                  picture = "images/user.png";
+                                                }
+
+                                                if(agePerson == 1 ){
+                                                  ext = "o";
+                                                }else{
+                                                  ext ="os";
+                                                }
+
+                                                if(agePet == 1 ){
+                                                  ext = "o";
+                                                }else{
+                                                  ext ="os";
+                                                }
+
+
+                                                final persona = Persona(
+                                                  name: nameP,
+                                                  lastName: lastnameP,
+                                                  age: agePerson,
+                                                  sex: sex,
+                                                  picture: picture,
+                                                  Personext: ext,
+                                                );
+
+                                                final mascota = Mascota(
+                                                  Pname: namePet,
+                                                  Page: agePet,
+                                                  type: type,
+                                                  Ppicture: Ppicture,
+                                                  ext: ext,
+                                                );
+
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => MyInfo(person:persona, pet: mascota),
+                                                  ),
+                                                );
+                                              }
+                                            }
+
+
                                           },
                                           color: Color(0xff264434),
                                           textColor: Colors.white,
@@ -423,7 +498,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                         ),
 
                         Container(
-                          margin: EdgeInsets.fromLTRB(110, 70, 0, 0),
+                          margin: EdgeInsets.fromLTRB(130, 120, 0, 0),
                           width: 130,
                           height: 130,
                           //color: Colors.green ,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:segundapractica/myform.dart';
-import 'package:segundapractica/info.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -16,3 +16,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

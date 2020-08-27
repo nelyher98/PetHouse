@@ -2,21 +2,13 @@ class Mascota{
 
   String Pname;
   int Page;
+  String type;
+  String Ppicture;
+  String ext;
 
-  void set PetName(String Pname){
-    Pname = Pname;
-  }
+  Mascota({this.Pname, this.Page, this.type, this.Ppicture, this.ext});
 
-  String get PetName{
-    return Pname;
-  }
 
-  void set PetAge(int PAge){
-    Page = Page;
-  }
 
-  int get PetAge{
-    return Page;
-  }
 
 }
